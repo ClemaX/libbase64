@@ -78,13 +78,15 @@ $(TESTOBJS): $(OBJDIR)/%.o: $(TESTDIR)/%.c $(OBJDIR)/%.d | $(OBJDIR)
 	@echo "CC $<"
 	$(COMPILE.c) $< -o $@
 
-tests: $(BINDIR)/$(NAME) $(TESTOBJS)
-	@echo "LD $^"
-	$(COMPILE.o) -L$(BINDIR) $(TESTOBJS) -o $@ $(LDLIBS) -l$(<:lib%.a=%)
-
 debug: CFLAGS += -DDEBUG -g3 -fsanitize=address
 debug: LDFLAGS += -g3 -fsanitize=address
 debug: re
+
+tests: CFLAGS += -DDEBUG -g3 -fsanitize=address
+tests: LDFLAGS += -g3 -fsanitize=address
+tests: $(BINDIR)/$(NAME) $(TESTOBJS)
+	@echo "LD $^"
+	$(COMPILE.o) -L$(BINDIR) $(TESTOBJS) -o $@ $(LDLIBS) -l$(<:lib%.a=%)
 
 clean:
 	$(foreach dir, $(LIBDIRS),\
