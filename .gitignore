@@ -1,0 +1,13 @@
+# C/CPP Binaries
+libbase64.a
+tests
+obj/
+*.out
+*.o
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/settings.json
+!.vscode/c_cpp_properties.json
